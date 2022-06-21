@@ -1,0 +1,128 @@
+//Import body-parser
+const bodyParser = require('body-parser')
+//Import the sequelize ORM for SQL
+const { Sequelize, DataTypes } = require('sequelize')
+//Import express
+const express = require('express')
+//Import Favicon
+const favicon = require('serve-favicon')
+//Import Morgan
+const morgan = require('morgan')
+//call success and GetUniqueId method (Middleware) from tools.js file
+const { success, GetUniqueId } = require('./tools/helper')
+//Include the list of students from student_data.js file
+let students = require('./src/db/student_data')
+//Call app config which contains all the app configuration
+const { appConfig } = require('./app-config')
+//call studentModel
+const studentModel = require('./src/models/student')
+
+//Instanciation of the app using express.js
+const app = express()
+//Port spectification
+const port = appConfig().app_port
+
+//Initiate the database
+const sequelize = new Sequelize(
+    appConfig().db_name,
+    appConfig().db_user,
+    appConfig().db_password,
+    {
+        host: appConfig().db_host,
+        dialect:"postgres",
+        dialectOptions: {
+            timezone: 'Etc/GMT-2'
+        },
+        logging: false
+    }
+)
+
+//Connection to the database
+sequelize.authenticate()
+    .then(_ => console.log(`The connection to the database is successfully established!`))
+    .catch(error => console.error(`Could not connect to the database due to ${error}`))
+
+//Call the models
+const Student = studentModel(sequelize, DataTypes)
+
+//Create the models into tables on database and then create record
+sequelize.sync({force: true})
+    .then(_ => {
+        console.log(`The database ${appConfig().db_name} is successfully synchronized!`)
+        students.map(student => {
+            Student.create({
+                name: student.name,
+                hp: student.hp,
+                cp: student.cp,
+                picture: student.picture,
+                types: student.types.join()
+            }).then(test_student => console.log(test_student.toJSON()))
+        })
+    })
+
+
+//Flavicon middleware: Use to show icon on navigator
+app.use(favicon(__dirname = ('./favicon.ico')))
+//Morgan middleware: Use to request status and link on the terminal
+app.use(morgan('dev'))
+// Body-parser middleware: Use to parse all entry data into json (Text to Json)
+app.use(bodyParser.json())
+
+//app.use((req, res, next) => {
+//console.log(`URL: ${req.url}`)
+//next()
+//})
+
+//Hello world express
+app.get('/', (req,res) => res.send('Hello, express with nodemon !'))
+
+
+//Show homepage
+app.get('/esti/startpage/home', (req,res) => res.send('Welcome to the start Page, <html><a href="/esti/allstudents">All students</a></html>'))
+
+
+//Getting student by ID
+app.get('/esti/student/number/:id', (req,res) => {
+    const id = parseInt(req.params.id)
+    const student = students.find(student => student.id === id)
+    let message = "Informations about the studends !"
+    res.json(success(message, student))
+})
+
+//Show students list
+app.get('/esti/allstudents', (req,res) => {
+    const message = "There is the student list"
+    res.json(success(message, students))
+})
+
+//Create new students using POST method
+app.post('/esti/create/students', (req, res) => {
+    const id = GetUniqueId(students)
+    const newStudent = {...req.body, ...{id: id, created: new Date()}}
+    students.push(newStudent)
+    const message = `The new student ${newStudent.name} is created successfully!`
+    res.json(success(message, newStudent))
+})
+
+//Write the students informations
+app.put('/esti/write/students/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    const studentsUpdated = { ...req.body, id:id}
+    students = students.map(student => {
+        return student.id === id ? studentsUpdated : student
+    })
+    const message = `The student ${studentsUpdated.name} is successfully updated!`
+    res.json(success(message, studentsUpdated))
+})
+
+//Delete students
+app.delete('/esti/delete/students/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    const studentsDeleted = students.find(student => student.id === id)
+    students = students.filter(student => student.id !== id)
+    const message = `The student ${studentsDeleted.name} was successfully deleted!`
+    res.json(success(message, studentsDeleted))
+})
+
+// Listen to the port to run the application
+app.listen(port, () => console.log(`Notre application est démarrée sur : http://localhost:${port}.`))
