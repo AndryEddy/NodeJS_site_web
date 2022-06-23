@@ -1,1 +1,0 @@
-module.exports = 'My_Private_Key'

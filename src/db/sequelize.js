@@ -2,35 +2,46 @@ const { Sequelize, DataTypes } = require('sequelize')
 const studentModel = require('../models/student')
 const userModel = require('../models/users')
 const productModel = require('../models/products')
+const eventModel = require('../models/events')
+const studyModel = require('../models/studies')
 const students = require('./student_data')
+const languageLevelModel = require('../models/language_level')
+const trainingSeminarModel = require('../models/training_seminar')
+const profesionalActivityModel = require('../models/profesionals_activity')
+const activityAndInterestModel = require('../models/activities_and_interest')
+
 const bcrypt = require('bcrypt')
-// Use process.env.config_value instead of appConfig because .env file more helpful
 require('dotenv').config()
-//Call app config which contains all the app configuration
-//const { appConfig } = require("../../app-config");
 
 
-//Initiate the database
-const sequelize = new Sequelize(
-    process.env.db_name,
-    process.env.db_user,
-    process.env.db_password,
-    {
-        host: process.env.db_host,
-        dialect:"postgres",
-        dialectOptions: {
-            timezone: 'Etc/GMT-2'
-        },
-        logging: false
-    }
-)
+const InitData = () => {
 
-//Call the models
-const Student = studentModel(sequelize, DataTypes)
-const User = userModel(sequelize, DataTypes)
-const Product = productModel(sequelize, DataTypes)
+    //Initiate the database
+    const sequelize = new Sequelize(
+        process.env.db_name,
+        process.env.db_user,
+        process.env.db_password,
+        {
+            host: process.env.db_host,
+            dialect:"postgres",
+            dialectOptions: {
+                timezone: 'Etc/GMT-2'
+            },
+            logging: false
+        }
+    )
 
-const initDb = () => {
+    //Call the models
+    const Student = studentModel(sequelize, DataTypes)
+    const User = userModel(sequelize, DataTypes)
+    const Product = productModel(sequelize, DataTypes)
+    const Event = eventModel(sequelize, DataTypes)
+    const Study = studyModel(sequelize, DataTypes)
+    const LanguageLevel = languageLevelModel(sequelize, DataTypes)
+    const trainingSeminar = trainingSeminarModel(sequelize, DataTypes)
+    const profesionalActivity = profesionalActivityModel(sequelize, DataTypes)
+    const activityAndInterest = activityAndInterestModel(sequelize, DataTypes)
+
     return sequelize.sync({force: true}).then(_ => {
         console.log(`The database ${process.env.db_name} is successfully synchronized!`)
         students.map(student => {
@@ -45,17 +56,29 @@ const initDb = () => {
         bcrypt.hash('123admin456', 10)
             .then(hash => {
                 User.create({
-                    first_name: 'Admin',
+                    first_name: 'Superuser',
                     last_name: 'Administrator',
-                    email: 'admin@user.com',
+                    email: 'admin@user.user',
                     mobile: '000000',
                     password: hash
                 }).then(user => console.log(user.toJSON()))
             })
 
+        module.exports = {
+            Student,
+            User,
+            Product,
+            Event,
+            Study,
+            LanguageLevel,
+            trainingSeminar,
+            profesionalActivity,
+            activityAndInterest
+        }
     })
 }
 
 module.exports = {
-    initDb, Student, User, Product
+    InitData
 }
+

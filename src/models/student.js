@@ -1,7 +1,7 @@
 const validTypes = ['Plante', 'Poison', 'Feu', 'Eau', 'Insecte', 'Normal', 'Vol','Electrik','Fée']
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('posts_post', {
+    return sequelize.define('students_student', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

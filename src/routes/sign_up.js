@@ -41,18 +41,21 @@ module.exports = (app) => {
                 console.log(`User account ${user.first_name} ${user.last_name} created successfully.`)
                 const message = `User with ID ${user.id} is successfully created.`
 
-                const subject = 'Confirmation de votre compte sur ESTI'
-                const body = `<p>Bonjour ${user.first_name} ${user.last_name}, votre code d'identification est: <b>478765</b></p>`
-                const description = 'Confirmation de votre adresse email.'
 
-                const mail_sent = send_mail(user.email, subject, body, description)
-                console.log(`mail_sent ${mail_sent}`)
-                if (mail_sent === true) {
-                    return res.json({ message , data: user})
-                }
-                else{
-                    return res.json({ message: mail_sent })
-                }
+                //const subject = 'Confirmation de votre compte sur ESTI'
+                //const body = `<p>Bonjour ${user.first_name} ${user.last_name}, votre code d'identification est: <b>478765</b></p>`
+                //const description = 'Confirmation de votre adresse email.'
+
+                //const mail_sent = send_mail(user.email, subject, body, description)
+                return res.json({ message , data: user})
+
+                //console.log(`mail_sent ${mail_sent}`)
+                //if (mail_sent === true) {
+                  //  return res.json({ message , data: user})
+                //}
+                //else{
+                  //  return res.json({ message: mail_sent })
+                //}
             })
                 .catch(error => {
                     return res.status(400).json({ message: error})

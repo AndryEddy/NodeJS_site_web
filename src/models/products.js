@@ -17,6 +17,10 @@ module.exports = (sequelize, Datatypes) => {
             set(photos) {
                 this.setDataValue('types', photos.join())
             }
+        },
+        is_published: {
+            type: Datatypes.BOOLEAN,
+            defaultValue: false
         }
     })
 }

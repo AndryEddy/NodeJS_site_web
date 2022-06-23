@@ -32,12 +32,9 @@ exports.send_mail = (mail_to, subject, body, description) => {
 
     mailTransporter.sendMail(mailDetails, function(error, info) {
         if(error) {
-            const message = `An error occurs during the mail sending: ${error}`
-            console.log(message)
-            return error.toString()
+            console.log(`An error occurs during the mail sending: ${error}`)
         } else {
             console.log(`Email sent successfully: ${info.response}`)
-            return true
         }
     }).then(result => {
         console.log(result)
