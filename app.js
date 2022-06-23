@@ -1,33 +1,66 @@
 //Import body_parser
 const bodyParser = require('body-parser')
-//Import the sequelize ORM for SQL
+
+//Import cookieParser
+const cookieParser = require('cookie-parser')
+
+//Import sessions from express
+const sessions = require('express-session')
+
+//Import sequelize ORM for SQL
 const sequelize = require('./src/db/sequelize')
+
+//Import InitDb to create new database
+const { InitDb } = require('./src/db/database')
+
 //Import express
 const express = require('express')
+
 //Import Favicon
 const favicon = require('serve-favicon')
+
 //Import Morgan
 const morgan = require('morgan')
+
 // Use process.env.config_value instead of appConfig because .env file more helpful
-require('dotenv').config();
-//Call app config which contains all the app configuration
-//const { appConfig } = require('./app-config')
+require('dotenv').config()
+
 
 //Instanciation of the app using express.js
 const app = express()
-//Port spectification
-const port = process.env.app_port || process.env.
+const port = process.env.app_port
 
-//Flavicon middleware: Use to show icon on navigator
+//Use 24h cookies
+const oneDay = 1000 * 60 * 60 * 24
+
+//user sessions
+app.use(sessions({
+    secret: process.env.sessions_private_key,
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay},
+    resave: false
+}))
+
+//Use cookie parser
+app.use(cookieParser());
+
+//Favicon middleware: Use to show icon on navigator
 app.use(favicon(__dirname = ('./favicon.ico')))
+
 //Morgan middleware: Use to request status and link on the terminal
 app.use(morgan('dev'))
+
 // Body-parser middleware: Use to parse all entry data into json (Text to Json)
 app.use(bodyParser.json())
 
-sequelize.initDb().then(db => console.log(`The database was successfully initialized!`))
+//Init first db creation and insert default data
+InitDb.then(() => {
+    sequelize.InitData().then(() => {
+        console.log('Database is successfully created and initialized.')
+    })
+})
 
-//Endpoint
+//Endpoints
 require('./src/routes/find_all_record')(app)
 require('./src/routes/find_record_by_pk')(app)
 require('./src/routes/create_record')(app)
