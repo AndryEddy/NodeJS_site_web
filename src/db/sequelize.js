@@ -13,35 +13,35 @@ const activityAndInterestModel = require('../models/activities_and_interest')
 const bcrypt = require('bcrypt')
 require('dotenv').config()
 
+const sequelize = new Sequelize(
+    process.env.db_name,
+    process.env.db_user,
+    process.env.db_password,
+    {
+        host: process.env.db_host,
+        dialect:"postgres",
+        dialectOptions: {
+            timezone: 'Etc/GMT-2'
+        },
+        logging: false
+    }
+)
+
+//Call the models
+const Student = studentModel(sequelize, DataTypes)
+const User = userModel(sequelize, DataTypes)
+const Product = productModel(sequelize, DataTypes)
+const Event = eventModel(sequelize, DataTypes)
+const Study = studyModel(sequelize, DataTypes)
+const LanguageLevel = languageLevelModel(sequelize, DataTypes)
+const trainingSeminar = trainingSeminarModel(sequelize, DataTypes)
+const profesionalActivity = profesionalActivityModel(sequelize, DataTypes)
+const activityAndInterest = activityAndInterestModel(sequelize, DataTypes)
+
 
 const InitData = () => {
 
     //Initiate the database
-    const sequelize = new Sequelize(
-        process.env.db_name,
-        process.env.db_user,
-        process.env.db_password,
-        {
-            host: process.env.db_host,
-            dialect:"postgres",
-            dialectOptions: {
-                timezone: 'Etc/GMT-2'
-            },
-            logging: false
-        }
-    )
-
-    //Call the models
-    const Student = studentModel(sequelize, DataTypes)
-    const User = userModel(sequelize, DataTypes)
-    const Product = productModel(sequelize, DataTypes)
-    const Event = eventModel(sequelize, DataTypes)
-    const Study = studyModel(sequelize, DataTypes)
-    const LanguageLevel = languageLevelModel(sequelize, DataTypes)
-    const trainingSeminar = trainingSeminarModel(sequelize, DataTypes)
-    const profesionalActivity = profesionalActivityModel(sequelize, DataTypes)
-    const activityAndInterest = activityAndInterestModel(sequelize, DataTypes)
-
     return sequelize.sync({force: true}).then(_ => {
         console.log(`The database ${process.env.db_name} is successfully synchronized!`)
         students.map(student => {
@@ -64,21 +64,20 @@ const InitData = () => {
                 }).then(user => console.log(user.toJSON()))
             })
 
-        module.exports = {
-            Student,
-            User,
-            Product,
-            Event,
-            Study,
-            LanguageLevel,
-            trainingSeminar,
-            profesionalActivity,
-            activityAndInterest
-        }
+
     })
 }
 
 module.exports = {
-    InitData
+    InitData,
+    Student,
+    User,
+    Product,
+    Event,
+    Study,
+    LanguageLevel,
+    trainingSeminar,
+    profesionalActivity,
+    activityAndInterest
 }
 
