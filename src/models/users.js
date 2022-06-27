@@ -31,6 +31,9 @@ module.exports = (sequelize, Datatypes) => {
 
             }
         },
+        picture: {
+          type: Datatypes.TEXT
+        },
         mobile: {
             type: Datatypes.INTEGER,
             allowNull: false,

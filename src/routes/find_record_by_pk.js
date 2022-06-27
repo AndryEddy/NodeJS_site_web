@@ -23,7 +23,7 @@ module.exports = (app) => {
         }
         else{
             const message = `An error occurred during the operation, please try again later. \n
-            Posted URL: api/write/${model}/${id}`
+            Posted URL: api/${model}/${id}`
             res.status(500).json({ message })
         }
 

@@ -4,7 +4,7 @@ const { db_access } = require('../db/bridge')
 const auth = require('../auth/auth')
 
 module.exports = (app) => {
-    app.get('/api/all/:model', auth, (req, res) => {
+    app.get('/api/findall/:model', auth, (req, res) => {
         const model = req.params.model
         let database = db_access()[model]
 
@@ -121,7 +121,7 @@ module.exports = (app) => {
         }
         else{
             const message = `An error occurred during the operation, please try again later. \n
-            Posted URL: api/all/${model}`
+            Posted URL: api/findall/${model}`
             res.status(500).json({ message })
         }
 

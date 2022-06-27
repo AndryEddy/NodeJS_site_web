@@ -16,7 +16,7 @@ module.exports = (app) => {
                 }
                 else{
                     //JWT
-                    const token = jwt.sign({ userId: user.id }, process.env.jwt_token_private_key,{ expiresIn: '24h' }, {})
+                    const token = jwt.sign({ userId: user.id }, process.env.jwt_token_private_key,{ expiresIn: process.env.jwtkoen_expiration }, {})
 
                     const message = `User connected successfully.`
                     const session = req.session
