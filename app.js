@@ -1,6 +1,9 @@
 //Import body_parser
 const bodyParser = require('body-parser')
 
+//Import cors
+const cors = require('cors')
+
 //Import cookieParser
 const cookieParser = require('cookie-parser')
 
@@ -32,6 +35,9 @@ const port = process.env.app_port
 
 //Use 24h cookies
 const oneDay = 1000 * 60 * 60 * 24
+
+//Cors
+app.use(cors())
 
 //user sessions
 app.use(sessions({
@@ -68,6 +74,8 @@ require('./src/routes/update_record')(app)
 require('./src/routes/delete_record')(app)
 require('./src/routes/sign_in')(app)
 require('./src/routes/sign_up')(app)
+require('./src/routes/sign_up_code_validation')(app)
+require('./src/routes/sign_in_code_validation')(app)
 
 app.use(({res}) => {
     const message = `Cannot find the requested resources, please try another URL.`

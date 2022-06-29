@@ -2,7 +2,7 @@ const { db_access } = require('../db/bridge')
 const auth = require('../auth/auth')
 
 module.exports = (app) => {
-    app.get('/api/:model/:id', auth, (req, res) => {
+    app.get('/api/find/:model/:id', auth, (req, res) => {
         const id = req.params.id
         const model = req.params.model
         let database = db_access()[model]
@@ -23,7 +23,7 @@ module.exports = (app) => {
         }
         else{
             const message = `An error occurred during the operation, please try again later. \n
-            Posted URL: api/${model}/${id}`
+            Posted URL: api/find/${model}/${id}`
             res.status(500).json({ message })
         }
 

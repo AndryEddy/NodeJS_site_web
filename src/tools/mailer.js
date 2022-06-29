@@ -1,24 +1,25 @@
 const nodemailer = require('nodemailer')
 require('dotenv').config()
 
-exports.send_mail = (mail_to, subject, body, description) => {
+exports.send_mail = async (mail_to, subject, body, description) => {
 
     console.log(process.env.mailer_service)
     console.log(process.env.mailer_port)
     console.log(process.env.mailer_login)
     console.log(process.env.mailer_password)
 
+
     let mailTransporter = nodemailer.createTransport({
-        service: process.env.mailer_service,
+        host: process.env.mailer_service,
         port: process.env.mailer_port,
-        secure: true,
-        secureConnection: false,
+        secure: false,
+        //secureConnection: false,
         auth: {
             user: process.env.mailer_login,
             pass: process.env.mailer_password
         },
-        tls:{
-            rejectUnAuthorized:false
+        tls: {
+            rejectUnAuthorized: false
         }
     })
 
@@ -30,14 +31,17 @@ exports.send_mail = (mail_to, subject, body, description) => {
         html: body,
     }
 
-    mailTransporter.sendMail(mailDetails, function(error, info) {
-        if(error) {
-            console.log(`An error occurs during the mail sending: ${error}`)
+    return await mailTransporter.sendMail(mailDetails, function (error, info) {
+        if (error) {
+            const message = `An error occurs during the mail sending: ${error}`
+            return {
+                error: message
+            }
         } else {
-            console.log(`Email sent successfully: ${info.response}`)
+            const message = `Email sent successfully: ${info.response}`
+            console.log(message)
+            return true
         }
-    }).then(result => {
-        console.log(result)
     })
 }
 

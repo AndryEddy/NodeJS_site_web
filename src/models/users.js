@@ -7,6 +7,9 @@ module.exports = (sequelize, Datatypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        code_email_validation: {
+          type: Datatypes.STRING,
+        },
         first_name: {
             type: Datatypes.STRING,
             allowNull: false,

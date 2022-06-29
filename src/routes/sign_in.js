@@ -1,6 +1,8 @@
 const { User } = require('../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const { generate_digit } = require('../tools/digit_code')
+const {send_mail} = require("../tools/mailer");
 
 module.exports = (app) => {
     app.post('/api/login', (req, res) => {
@@ -15,13 +17,25 @@ module.exports = (app) => {
                     return res.status(401).json({ message })
                 }
                 else{
-                    //JWT
-                    const token = jwt.sign({ userId: user.id }, process.env.jwt_token_private_key,{ expiresIn: process.env.jwt_token_expiration }, {})
+                    const message = `User credentials validated, Sending validation code ...`
+                    //Generate digit code
+                    const code_validation = generate_digit()
+                    user.update({
+                        code_email_validation: code_validation
+                    })
 
-                    const message = `User connected successfully.`
-                    const session = req.session
-                    session.user_id = user.id
-                    return res.json({ message, data: user, token, session})
+                    const subject = `Nous vérifions qu'il s'agit bien de vous.`
+                    const body = `<p>Bonjour ${user.first_name} ${user.last_name}, votre code d'identification est: <b>${code_validation}</b></p>`
+                    const description = 'Confirmation de votre adresse email.'
+
+                    send_mail(user.email, subject, body, description).catch(error => {
+                        if (error) {
+                            console.log(error)
+                            return res.status(400).json({ message: error })
+                        }
+                    }).then(result => {
+                        return res.status(200).json({message, result})
+                    })
                 }
             })
         }).catch(error => {
