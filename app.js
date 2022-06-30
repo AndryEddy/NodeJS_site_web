@@ -76,6 +76,7 @@ require('./src/routes/sign_in')(app)
 require('./src/routes/sign_up')(app)
 require('./src/routes/sign_up_code_validation')(app)
 require('./src/routes/sign_in_code_validation')(app)
+require('./src/routes/change_password')(app)
 
 app.use(({res}) => {
     const message = `Cannot find the requested resources, please try another URL.`
