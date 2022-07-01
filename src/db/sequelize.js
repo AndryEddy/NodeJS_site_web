@@ -1,17 +1,17 @@
-const { Sequelize, DataTypes } = require('sequelize')
-const studentModel = require('../models/student')
-const userModel = require('../models/users')
-const productModel = require('../models/products')
-const eventModel = require('../models/events')
-const studyModel = require('../models/studies')
-const students = require('./student_data')
-const languageLevelModel = require('../models/language_level')
-const trainingSeminarModel = require('../models/training_seminar')
-const profesionalActivityModel = require('../models/profesionals_activity')
-const activityAndInterestModel = require('../models/activities_and_interest')
+const { Sequelize, DataTypes } = require('sequelize');
+const studentModel = require('../models/student');
+const userModel = require('../models/users');
+const productModel = require('../models/products');
+const eventModel = require('../models/events');
+const studyModel = require('../models/studies');
+const students = require('./student_data');
+const languageLevelModel = require('../models/language_level');
+const trainingSeminarModel = require('../models/training_seminar');
+const profesionalActivityModel = require('../models/profesionals_activity');
+const activityAndInterestModel = require('../models/activities_and_interest');
 
-const bcrypt = require('bcrypt')
-require('dotenv').config()
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const sequelize = new Sequelize(
     process.env.db_name,
@@ -25,7 +25,7 @@ const sequelize = new Sequelize(
         },
         logging: false
     }
-)
+);
 
 //Call the models
 const Student = studentModel(sequelize, DataTypes)

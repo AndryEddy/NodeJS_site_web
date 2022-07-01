@@ -23,4 +23,4 @@ module.exports = (sequelize, Datatypes) => {
             defaultValue: false
         }
     })
-}
+};

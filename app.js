@@ -1,43 +1,43 @@
 //Import body_parser
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 //Import cors
-const cors = require('cors')
+const cors = require('cors');
 
 //Import cookieParser
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 //Import sessions from express
-const sessions = require('express-session')
+const sessions = require('express-session');
 
 //Import sequelize ORM for SQL
-const sequelize = require('./src/db/sequelize')
+const sequelize = require('./src/db/sequelize');
 
 //Import InitDb to create new database
-const { InitDb } = require('./src/db/database')
+const { InitDb } = require('./src/db/database');
 
 //Import express
-const express = require('express')
+const express = require('express');
 
 //Import Favicon
-const favicon = require('serve-favicon')
+const favicon = require('serve-favicon');
 
 //Import Morgan
-const morgan = require('morgan')
+const morgan = require('morgan');
 
 // Use process.env.config_value instead of appConfig because .env file more helpful
-require('dotenv').config()
+require('dotenv').config();
 
 
 //Instanciation of the app using express.js
-const app = express()
-const port = process.env.app_port
+const app = express();
+const port = process.env.app_port;
 
 //Use 24h cookies
-const oneDay = 1000 * 60 * 60 * 24
+const oneDay = 1000 * 60 * 60 * 24;
 
 //Cors
-app.use(cors())
+app.use(cors());
 
 //user sessions
 app.use(sessions({
@@ -45,43 +45,43 @@ app.use(sessions({
     saveUninitialized: true,
     cookie: { maxAge: oneDay},
     resave: false
-}))
+}));
 
 //Use cookie parser
 app.use(cookieParser());
 
 //Favicon middleware: Use to show icon on navigator
-app.use(favicon(__dirname = ('./favicon.ico')))
+app.use(favicon(__dirname = ('./favicon.ico')));
 
 //Morgan middleware: Use to request status and link on the terminal
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
 // Body-parser middleware: Use to parse all entry data into json (Text to Json)
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //Init first db creation and insert default data
 InitDb.then(() => {
     sequelize.InitData().then(() => {
         console.log('Database is successfully created and initialized.')
     })
-})
+});
 
 //Endpoints
-require('./src/routes/find_all_record')(app)
-require('./src/routes/find_record_by_pk')(app)
-require('./src/routes/create_record')(app)
-require('./src/routes/update_record')(app)
-require('./src/routes/delete_record')(app)
-require('./src/routes/sign_in')(app)
-require('./src/routes/sign_up')(app)
-require('./src/routes/sign_up_code_validation')(app)
-require('./src/routes/sign_in_code_validation')(app)
-require('./src/routes/change_password')(app)
+require('./src/routes/find_all_record')(app);
+require('./src/routes/find_record_by_pk')(app);
+require('./src/routes/create_record')(app);
+require('./src/routes/update_record')(app);
+require('./src/routes/delete_record')(app);
+require('./src/routes/sign_in')(app);
+require('./src/routes/sign_up')(app);
+require('./src/routes/sign_up_code_validation')(app);
+require('./src/routes/sign_in_code_validation')(app);
+require('./src/routes/change_password')(app);
 
 app.use(({res}) => {
-    const message = `Cannot find the requested resources, please try another URL.`
+    const message = `Cannot find the requested resources, please try another URL.`;
     res.status(404).json({message})
-})
+});
 
 // Listen to the port to run the application
-app.listen(port, () => console.log(`Notre application est démarrée sur : http://localhost:${port}.`))
+app.listen(port, () => console.log(`Notre application est démarrée sur : http://localhost:${port}.`));

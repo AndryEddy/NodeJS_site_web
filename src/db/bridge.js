@@ -8,11 +8,11 @@ const {
     trainingSeminar,
     profesionalActivity,
     activityAndInterest
-} = require('../db/sequelize')
+} = require('../db/sequelize');
 
 exports.db_access = () => {
-    const table_user = User.name
-    const table_student = Student.name
+    const table_user = User.name;
+    const table_student = Student.name;
     return  {
         'student_student': Student,
         'users_user': User,
@@ -24,4 +24,4 @@ exports.db_access = () => {
         'profesionals_activity': profesionalActivity,
         'activityAndInterest': activityAndInterest
     }
-}
+};

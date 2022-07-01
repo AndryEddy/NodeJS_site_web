@@ -60,4 +60,4 @@ module.exports = (sequelize, Datatypes) => {
             isInt: true
         }
     })
-}
+};

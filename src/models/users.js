@@ -120,4 +120,4 @@ module.exports = (sequelize, Datatypes) => {
             type: Datatypes.STRING
         }
     })
-}
+};

@@ -89,4 +89,4 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: 'created',
         updatedAt: true,
     })
-}
+};

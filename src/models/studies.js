@@ -45,4 +45,4 @@ module.exports = (sequelize, Datatypes) => {
             isNumeric: true
         }
     })
-}
+};
