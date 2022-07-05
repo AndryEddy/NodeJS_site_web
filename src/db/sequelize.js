@@ -28,22 +28,22 @@ const sequelize = new Sequelize(
 );
 
 //Call the models
-const Student = studentModel(sequelize, DataTypes)
-const User = userModel(sequelize, DataTypes)
-const Product = productModel(sequelize, DataTypes)
-const Event = eventModel(sequelize, DataTypes)
-const Study = studyModel(sequelize, DataTypes)
-const LanguageLevel = languageLevelModel(sequelize, DataTypes)
-const trainingSeminar = trainingSeminarModel(sequelize, DataTypes)
-const profesionalActivity = profesionalActivityModel(sequelize, DataTypes)
-const activityAndInterest = activityAndInterestModel(sequelize, DataTypes)
+const Student = studentModel(sequelize, DataTypes);
+const User = userModel(sequelize, DataTypes);
+const Product = productModel(sequelize, DataTypes);
+const Event = eventModel(sequelize, DataTypes);
+const Study = studyModel(sequelize, DataTypes);
+const LanguageLevel = languageLevelModel(sequelize, DataTypes);
+const trainingSeminar = trainingSeminarModel(sequelize, DataTypes);
+const profesionalActivity = profesionalActivityModel(sequelize, DataTypes);
+const activityAndInterest = activityAndInterestModel(sequelize, DataTypes);
 
 
 const InitData = () => {
 
     //Initiate the database
     return sequelize.sync({force: true}).then(_ => {
-        console.log(`The database ${process.env.db_name} is successfully synchronized!`)
+        console.log(`The database ${process.env.db_name} is successfully synchronized!`);
         students.map(student => {
             Student.create({
                 name: student.name,
@@ -52,7 +52,7 @@ const InitData = () => {
                 picture: student.picture,
                 types: student.types
             })
-        })
+        });
         bcrypt.hash('123admin456', 10)
             .then(hash => {
                 User.create({
@@ -79,5 +79,5 @@ module.exports = {
     trainingSeminar,
     profesionalActivity,
     activityAndInterest
-}
+};
 

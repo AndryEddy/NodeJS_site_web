@@ -37,12 +37,13 @@ module.exports = (sequelize, Datatypes) => {
         picture: {
           type: Datatypes.TEXT
         },
+        files: {
+            type: Datatypes.TEXT
+        },
         mobile: {
             type: Datatypes.INTEGER,
-            allowNull: false,
             validate: {
                 isNumeric: true
-
             }
         },
         birth_date: {
@@ -118,6 +119,15 @@ module.exports = (sequelize, Datatypes) => {
         },
         personal_address: {
             type: Datatypes.STRING
+        },
+        year: {
+          type: Datatypes.INTEGER
+        },
+        level: {
+            type: Datatypes.STRING
+        },
+        state: {
+            type: Datatypes.STRING,
         }
     })
 };

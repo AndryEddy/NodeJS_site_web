@@ -7,7 +7,7 @@ module.exports = (sequelize, Datatypes) => {
         },
         description: {
             type: Datatypes.TEXT,
-            allowNull: false,
+            allowNull: false
         },
         year: {
             type: Datatypes.INTEGER,
@@ -16,7 +16,7 @@ module.exports = (sequelize, Datatypes) => {
             }
         },
         institution: {
-            type: Datatypes.STRING,
+            type: Datatypes.STRING
         },
         discipline: {
             type: Datatypes.STRING

@@ -1,6 +1,12 @@
 const { ValidationError, UniqueConstraintError} = require('sequelize');
 const { db_access } = require('../db/bridge');
 const auth = require('../auth/auth');
+const imageUpload = require('../tools/images_uploading');
+
+const express = require("express");
+//const router = express.Router();
+//const homeController = require("../routes/home");
+
 
 module.exports = (app) => {
     app.post('/api/create/:model', auth, (req, res) => {
@@ -9,8 +15,16 @@ module.exports = (app) => {
         if (database) {
             database.create(req.body)
                 .then(record => {
-                    const message = `The record with ID: ${record.id} have been created.`;
-                    res.json({ message, data: record })
+                    if (req.body.files) {
+                        imageUpload.checkUpload(req, res);
+                        const record_updated = imageUpload.generateImage(req, record);
+                        const message = `The record with ID: ${record_updated.id} have been created.`;
+                        res.json({ message, data: record_updated })
+                    }
+                    else{
+                        const message = `The record with ID: ${record.id} have been created.`;
+                        res.json({ message, data: record })
+                    }
                 })
                 .catch(error => {
                     if (error instanceof ValidationError) {

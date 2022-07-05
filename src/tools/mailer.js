@@ -1,12 +1,12 @@
-const nodemailer = require('nodemailer')
-require('dotenv').config()
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 exports.send_mail = async (mail_to, subject, body, description) => {
 
-    console.log(process.env.mailer_service)
-    console.log(process.env.mailer_port)
-    console.log(process.env.mailer_login)
-    console.log(process.env.mailer_password)
+    console.log(process.env.mailer_service);
+    console.log(process.env.mailer_port);
+    console.log(process.env.mailer_login);
+    console.log(process.env.mailer_password);
 
 
     let mailTransporter = nodemailer.createTransport({
@@ -21,7 +21,7 @@ exports.send_mail = async (mail_to, subject, body, description) => {
         tls: {
             rejectUnAuthorized: false
         }
-    })
+    });
 
     let mailDetails = {
         from: process.env.mailer_login,
@@ -29,22 +29,21 @@ exports.send_mail = async (mail_to, subject, body, description) => {
         subject: subject,
         text: description,
         html: body,
-    }
+    };
 
     return await mailTransporter.sendMail(mailDetails, function (error, info) {
         if (error) {
-            const message = `An error occurs during the mail sending: ${error}`
+            const message = `An error occurs during the mail sending: ${error}`;
             return {
                 error: message
             }
         } else {
-            const message = `Email sent successfully: ${info.response}`
-            console.log(message)
+            const message = `Email sent successfully: ${info.response}`;
+            console.log(message);
             return true
         }
     })
-}
-
+};
 
 
 

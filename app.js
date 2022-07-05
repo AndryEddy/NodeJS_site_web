@@ -59,6 +59,9 @@ app.use(morgan('dev'));
 // Body-parser middleware: Use to parse all entry data into json (Text to Json)
 app.use(bodyParser.json());
 
+//remove comment to use epxress.json()
+app.use(express.json());
+
 //Init first db creation and insert default data
 InitDb.then(() => {
     sequelize.InitData().then(() => {
@@ -84,4 +87,4 @@ app.use(({res}) => {
 });
 
 // Listen to the port to run the application
-app.listen(port, () => console.log(`Notre application est démarrée sur : http://localhost:${port}.`));
+app.listen(port, () => console.log(`Server is running on: http://localhost:${port}.`));
