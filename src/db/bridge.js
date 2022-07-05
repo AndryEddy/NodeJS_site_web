@@ -11,8 +11,6 @@ const {
 } = require('../db/sequelize');
 
 exports.db_access = () => {
-    const table_user = User.name;
-    const table_student = Student.name;
     return  {
         'student_student': Student,
         'users_user': User,
