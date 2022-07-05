@@ -11,10 +11,11 @@ module.exports = (app) => {
 
             //JWT
             const token = jwt.sign({ userId: user.id }, process.env.jwt_token_private_key,{ expiresIn: process.env.jwt_token_expiration }, {});
+            user.update({token: token}, { where: {id: user.id}});
             const message = `User connected successfully.`;
             const session = req.session;
             session.user_id = user.id;
-            return res.json({ message, data: user, token, session })
+            return res.json({ message, data: user, session })
 
         }).catch(error => {
             const message = 'User cannot be connected, please try again later.';

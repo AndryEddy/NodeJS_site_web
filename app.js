@@ -62,6 +62,13 @@ app.use(bodyParser.json());
 //remove comment to use epxress.json()
 app.use(express.json());
 
+//Use urlencoded
+app.use(
+    express.urlencoded({
+        extended: true,
+    })
+);
+
 //Init first db creation and insert default data
 InitDb.then(() => {
     sequelize.InitData().then(() => {
@@ -80,6 +87,7 @@ require('./src/routes/sign_up')(app);
 require('./src/routes/sign_up_code_validation')(app);
 require('./src/routes/sign_in_code_validation')(app);
 require('./src/routes/change_password')(app);
+require('./src/routes/log_out')(app);
 
 app.use(({res}) => {
     const message = `Cannot find the requested resources, please try another URL.`;

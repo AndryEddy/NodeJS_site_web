@@ -7,6 +7,10 @@ module.exports = (sequelize, Datatypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        token: {
+          type: Datatypes.STRING,
+          isString: true
+        },
         code_email_validation: {
           type: Datatypes.STRING,
         },
