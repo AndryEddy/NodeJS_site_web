@@ -8,12 +8,18 @@ module.exports = (app) => {
             auth: process.env.github_access_token
         });
 
-        const response = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+        await octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner: process.env.github_owner,
             repo: process.env.github_repo
+        }).then(result => {
+            const message = `Commits list achieved successfully`;
+            return res.json({ message, data: result})
+        }).catch(error => {
+            if (error) {
+                const message = `An error occurend when accessing Github API, URL: /api/gh/commit/view`;
+                return res.status(400).json({ message, data: error })
+            }
         });
-        const message = `Commits list achieved successfully`;
-        return res.json({ message, data: response})
     });
 };
 
