@@ -90,6 +90,7 @@ require('./src/routes/change_password')(app);
 require('./src/routes/log_out')(app);
 require('./src/routes/gh_commit_view')(app);
 require('./src/routes/gh_pullrequests_view')(app);
+require('./src/routes/get_album_photos')(app);
 
 app.use(({res}) => {
     const message = `Cannot find the requested resources, please try another URL.`;

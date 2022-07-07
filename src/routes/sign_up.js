@@ -55,7 +55,7 @@ module.exports = (app) => {
 
                 send_mail(user.email, subject, body, description).catch(error => {
                     if (error) {
-                        console.log(error)
+                        console.log(error);
                         return res.status(400).json({ message: error })
                     }
                 }).then(result => {
