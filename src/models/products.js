@@ -19,7 +19,7 @@ module.exports = (sequelize, Datatypes) => {
                 return this.getDataValue('photos').split(',')
             },
             set(photos) {
-                this.setDataValue('types', photos.join())
+                this.setDataValue('photos', photos.join())
             }
         },
         is_published: {

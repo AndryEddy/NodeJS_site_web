@@ -11,7 +11,68 @@ module.exports = (app) => {
             const first_name = req.query.first_name;
             const last_name = req.query.last_name;
             const email = req.query.email;
+            const name = req.query.name;
+            const description = req.query.description;
+            const title = req.query.title;
+
             const limit = parseInt(req.query.limit) || 5;
+
+            if (name){
+                if (name.length < 2) {
+                    const message = 'The term used in search must have at least two character';
+                    return res.status(400).json({message});
+                }
+                return database.findAndCountAll({
+                    where: {
+                        name: {
+                            [Op.like]: `%${name}%`
+                        }
+                    },
+                    order: ['name'],
+                    limit: limit
+                }).then(({count, rows}) => {
+                    const message = `There is ${count} records found with the term ${name}.`;
+                    return res.json({message: message, data: rows});
+                });
+            }
+
+            if (description){
+                if (description.length < 2) {
+                    const message = 'The term used in search must have at least two character';
+                    return res.status(400).json({message});
+                }
+                return database.findAndCountAll({
+                    where: {
+                        description: {
+                            [Op.like]: `%${description}%`
+                        }
+                    },
+                    order: ['description'],
+                    limit: limit
+                }).then(({count, rows}) => {
+                    const message = `There is ${count} records found with the term ${description}.`;
+                    return res.json({message: message, data: rows});
+                });
+            }
+
+            if (title){
+                if (title.length < 2) {
+                    const message = 'The term used in search must have at least two character';
+                    return res.status(400).json({message});
+                }
+                return database.findAndCountAll({
+                    where: {
+                        title: {
+                            [Op.like]: `%${title}%`
+                        }
+                    },
+                    order: ['title'],
+                    limit: limit
+                }).then(({count, rows}) => {
+                    const message = `There is ${count} records found with the term ${title}.`;
+                    return res.json({message: message, data: rows});
+                });
+            }
 
             if (first_name && last_name && email){
                 if (first_name.length < 2 || last_name.length < 2 || email.length < 2) {

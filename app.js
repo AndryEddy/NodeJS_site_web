@@ -60,7 +60,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 //remove comment to use epxress.json()
-app.use(express.json());
+//app.use(express.json());
 
 //Use urlencoded
 app.use(
