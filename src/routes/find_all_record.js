@@ -14,8 +14,28 @@ module.exports = (app) => {
             const name = req.query.name;
             const description = req.query.description;
             const title = req.query.title;
+            const user_id = req.query.user_id;
 
             const limit = parseInt(req.query.limit) || 5;
+
+            if (user_id){
+                if (user_id.length < 2) {
+                    const message = 'The term used in search must have at least two character';
+                    return res.status(400).json({message});
+                }
+                return database.findAndCountAll({
+                    where: {
+                        user_id: {
+                            [Op.eq]: parseInt(user_id)
+                        }
+                    },
+                    order: ['user_id'],
+                    limit: limit
+                }).then(({count, rows}) => {
+                    const message = `There is ${count} records found with the term ${user_id}.`;
+                    return res.json({message: message, data: rows});
+                });
+            }
 
             if (name){
                 if (name.length < 2) {

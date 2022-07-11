@@ -5,9 +5,11 @@ module.exports = (sequelize, Datatypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        personal_activities: {
             type: Datatypes.TEXT,
-            allowNull: false,
+        },
+        other_activities: {
+            type: Datatypes.TEXT,
         },
         user_id: {
             foreignKey: true,

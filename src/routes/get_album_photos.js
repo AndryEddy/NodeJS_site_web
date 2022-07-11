@@ -1,15 +1,12 @@
 const FB = require('fb');
+const fs =  require('fs');
 
 module.exports = (app) => {
     app.get('/api/fb/login', (req, res) =>{
-        const facebook = new FB.Facebook();
+        //FB.getLoginUrl({appId: '2094556004047819'});.
+        //FB.options({version: 'v14.0'});
 
-        facebook.login(response => {
-            if(response.authResponse) console.log('Logged in');
-            else console.log('Cancelled authorization');
-        }, {scope: 'user_photos'});
-
-        facebook.getLoginStatus(function(response) {
+        FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 // The user is logged in and has authenticated your
                 // app, and response.authResponse supplies
@@ -34,6 +31,27 @@ module.exports = (app) => {
                 return res.status(400).json({message})
             }
         });
+
+        //
+        //
+        // const token = 'f5a2c1570e961ec66e99b0b671120660';
+        // const appsecret = '439a13644ef41133437d972ad9d266a7';
+        // FB.setAccessToken({accessToken: token});
+        //
+        // FB.api('me/photos', 'post', { source: fs.createReadStream('./git.jpg'), caption: 'T.E' }, function (res) {
+        //     if(!res || res.error) {
+        //         console.log(!res ? 'error occurred' : res.error);
+        //         return;
+        //     }
+        //     console.log('Post Id: ' + res.post_id);
+        // });
+        //
+        // FB.login(response => {
+        //     if(response.authResponse) console.log('Logged in');
+        //     else console.log('Cancelled authorization');
+        // }, {scope: 'user_photos'});
+
+
     });
 };
 

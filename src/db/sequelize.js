@@ -9,6 +9,8 @@ const languageLevelModel = require('../models/language_level');
 const trainingSeminarModel = require('../models/training_seminar');
 const profesionalActivityModel = require('../models/profesionals_activity');
 const activityAndInterestModel = require('../models/activities_and_interest');
+const complemtaryQuestions = require('../models/complementary_questions');
+const finacing = require('../models/financing');
 
 const bcrypt = require('bcrypt');
 require('dotenv').config();
@@ -37,34 +39,41 @@ const LanguageLevel = languageLevelModel(sequelize, DataTypes);
 const trainingSeminar = trainingSeminarModel(sequelize, DataTypes);
 const profesionalActivity = profesionalActivityModel(sequelize, DataTypes);
 const activityAndInterest = activityAndInterestModel(sequelize, DataTypes);
+const complementaryQuestions = complemtaryQuestions(sequelize, DataTypes);
+const financing = finacing(sequelize, DataTypes);
 
 
 const InitData = () => {
 
     //Initiate the database
-    return sequelize.sync({force: true}).then(_ => {
+    return sequelize.sync({force: false}).then(_ => {
         console.log(`The database ${process.env.db_name} is successfully synchronized!`);
-        students.map(student => {
-            Student.create({
-                name: student.name,
-                hp: student.hp,
-                cp: student.cp,
-                picture: student.picture,
-                types: student.types
-            })
+        // students.map(student => {
+        //     Student.create({
+        //         name: student.name,
+        //         hp: student.hp,
+        //         cp: student.cp,
+        //         picture: student.picture,
+        //         types: student.types
+        //     })
+        // });
+        User.findOne({where: {id: 1}}).then(user => {
+            if (user) {
+                console.log(`Admin user is already created, ID: ${user.id}`)
+            }
+            else{
+                bcrypt.hash('123admin456', 10)
+                    .then(hash => {
+                        User.create({
+                            first_name: 'Superuser',
+                            last_name: 'Administrator',
+                            email: 'admin@user.user',
+                            mobile: '000000',
+                            password: hash
+                        }).then(user => console.log(user.toJSON()))
+                    })
+            }
         });
-        bcrypt.hash('123admin456', 10)
-            .then(hash => {
-                User.create({
-                    first_name: 'Superuser',
-                    last_name: 'Administrator',
-                    email: 'admin@user.user',
-                    mobile: '000000',
-                    password: hash
-                }).then(user => console.log(user.toJSON()))
-            })
-
-
     })
 }
 
@@ -78,6 +87,8 @@ module.exports = {
     LanguageLevel,
     trainingSeminar,
     profesionalActivity,
-    activityAndInterest
+    activityAndInterest,
+    complementaryQuestions,
+    financing
 };
 

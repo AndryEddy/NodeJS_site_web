@@ -7,29 +7,15 @@ module.exports = (sequelize, Datatypes) => {
         },
         name: {
             type: Datatypes.STRING,
-            allowNull: false,
         },
         mother_tongue: {
             type: Datatypes.STRING,
-            allowNull: false,
         },
-        good_written: {
-            type: Datatypes.BOOLEAN
+        written: {
+            type: Datatypes.INTEGER
         },
-        average_written: {
-            type: Datatypes.BOOLEAN
-        },
-        low_written: {
-            type: Datatypes.BOOLEAN
-        },
-        good_speaking: {
-            type: Datatypes.BOOLEAN
-        },
-        average_speaking: {
-            type: Datatypes.BOOLEAN
-        },
-        low_speaking: {
-            type: Datatypes.BOOLEAN
+        speaking: {
+            type: Datatypes.INTEGER
         },
         user_id: {
             foreignKey: true,

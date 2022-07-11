@@ -7,7 +7,9 @@ const {
     LanguageLevel,
     trainingSeminar,
     profesionalActivity,
-    activityAndInterest
+    activityAndInterest,
+    complementaryQuestions,
+    financing
 } = require('../db/sequelize');
 
 exports.db_access = () => {
@@ -20,6 +22,8 @@ exports.db_access = () => {
         'languages_level': LanguageLevel,
         'trainings_seminar': trainingSeminar,
         'profesionals_activity': profesionalActivity,
-        'activityAndInterest': activityAndInterest
+        'activityAndInterest': activityAndInterest,
+        'complementary_questions': complementaryQuestions,
+        'financing': financing
     }
 };
