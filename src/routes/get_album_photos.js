@@ -1,10 +1,11 @@
 const FB = require('fb');
 const fs =  require('fs');
+require('dotenv').config();
 
 module.exports = (app) => {
     app.get('/api/fb/login', (req, res) =>{
-        //FB.getLoginUrl({appId: '2094556004047819'});.
-        //FB.options({version: 'v14.0'});
+        FB.getLoginUrl({appId: process.env.facebook_app_id});
+        FB.options({version: process.env.facebook_graph_api_version});
 
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
@@ -32,24 +33,19 @@ module.exports = (app) => {
             }
         });
 
-        //
-        //
-        // const token = 'f5a2c1570e961ec66e99b0b671120660';
-        // const appsecret = '439a13644ef41133437d972ad9d266a7';
-        // FB.setAccessToken({accessToken: token});
-        //
-        // FB.api('me/photos', 'post', { source: fs.createReadStream('./git.jpg'), caption: 'T.E' }, function (res) {
-        //     if(!res || res.error) {
-        //         console.log(!res ? 'error occurred' : res.error);
-        //         return;
-        //     }
-        //     console.log('Post Id: ' + res.post_id);
-        // });
-        //
-        // FB.login(response => {
-        //     if(response.authResponse) console.log('Logged in');
-        //     else console.log('Cancelled authorization');
-        // }, {scope: 'user_photos'});
+        FB.setAccessToken({accessToken: process.env.facebook_client_token});
+        FB.api('me/photos', 'post', { source: fs.createReadStream('./git.jpg'), caption: 'T.E' }, function (res) {
+            if(!res || res.error) {
+                console.log(!res ? 'error occurred' : res.error);
+                return;
+            }
+            console.log('Post Id: ' + res.post_id);
+        });
+
+        FB.login(response => {
+            if(response.authResponse) console.log('Logged in');
+            else console.log('Cancelled authorization');
+        }, {scope: 'user_photos'});
 
 
     });
