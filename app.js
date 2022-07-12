@@ -70,11 +70,13 @@ app.use(
 );
 
 //Initialize default data
-if (client) {
-    sequelize.InitData().then(() => {
-        console.log('Database is ready to query.')
-    });
-}
+client.connect()
+    .then(() => {
+        console.log('Database connexion: OK');
+        sequelize.InitData().then(() => {
+            console.log('Database is ready to query.')
+        }); })
+    .catch(err => console.error('connection error', err.stack));
 
 //TODO: Uncomment this code to use database creation from database.js
 //Call InitDb from require('./src/db/database');

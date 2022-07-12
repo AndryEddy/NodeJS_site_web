@@ -2,7 +2,11 @@ const { Client } = require('pg');
 require('dotenv').config();
 
 //Create new database
-const client = new Client();
+const client = new Client({
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT});
 
 //TODO: Uncomment this code to create new database from code:
 // 1- Add parameters to new Client(): Ex: new Client({
