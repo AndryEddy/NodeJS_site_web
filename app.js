@@ -14,7 +14,7 @@ const sessions = require('express-session');
 const sequelize = require('./src/db/sequelize');
 
 //Import InitDb to create new database
-const { InitDb } = require('./src/db/database');
+const { client } = require('./src/db/database');
 
 //Import express
 const express = require('express');
@@ -69,12 +69,22 @@ app.use(
     })
 );
 
-//Init first db creation and insert default data
-InitDb.then(() => {
+//Initialize default data
+if (client) {
     sequelize.InitData().then(() => {
-        console.log('Database is successfully created and initialized.')
-    })
-});
+        console.log('Database is ready to query.')
+    });
+}
+
+//TODO: Uncomment this code to use database creation from database.js
+//Call InitDb from require('./src/db/database');
+
+//Init first db creation and insert default data
+// InitDb.then(() => {
+//     sequelize.InitData().then(() => {
+//         console.log('Database is successfully created and initialized.')
+//     })
+// });
 
 //Endpoints
 require('./src/routes/find_all_record')(app);

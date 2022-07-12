@@ -16,11 +16,8 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const sequelize = new Sequelize(
-    process.env.db_name,
-    process.env.db_user,
-    process.env.db_password,
     {
-        host: process.env.db_host,
+        host: process.env.PGHOST,
         dialect:"postgres",
         dialectOptions: {
             timezone: 'Etc/GMT-2'
@@ -46,8 +43,8 @@ const financing = finacing(sequelize, DataTypes);
 const InitData = () => {
 
     //Initiate the database
-    return sequelize.sync({force: false}).then(_ => {
-        console.log(`The database ${process.env.db_name} is successfully synchronized!`);
+    return sequelize.sync().then(_ => {
+        console.log(`The database ${process.env.PGDATABASE} is successfully synchronized!`);
         // students.map(student => {
         //     Student.create({
         //         name: student.name,
