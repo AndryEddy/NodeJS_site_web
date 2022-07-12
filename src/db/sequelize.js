@@ -43,7 +43,7 @@ const financing = finacing(sequelize, DataTypes);
 const InitData = () => {
 
     //Initiate the database
-    return sequelize.sync().then(_ => {
+    return sequelize.sync({force: true}).then(_ => {
         console.log(`The database ${process.env.PGDATABASE} is successfully synchronized!`);
         // students.map(student => {
         //     Student.create({

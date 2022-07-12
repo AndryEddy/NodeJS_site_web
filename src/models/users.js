@@ -73,37 +73,37 @@ module.exports = (sequelize, Datatypes) => {
         address: {
             type: Datatypes.STRING,
         },
-        father_name: {
+        fathers_name: {
             type: Datatypes.STRING,
         },
-        father_mobile:{
+        fathers_mobile:{
             type: Datatypes.INTEGER,
             validate: {
                 isNumeric: true
             }
         },
-        father_job: {
+        fathers_job: {
             type: Datatypes.STRING,
         },
-        father_email: {
+        fathers_email: {
             type: Datatypes.STRING,
             validate: {
                 isEmail: true
             }
         },
-        mother_name: {
+        mothers_name: {
             type: Datatypes.STRING,
         },
-        mother_mobile:{
+        mothers_mobile:{
             type: Datatypes.INTEGER,
             validate: {
                 isNumeric: true
             }
         },
-        mother_job: {
+        mothers_job: {
             type: Datatypes.STRING,
         },
-        mother_email: {
+        mothers_email: {
             type: Datatypes.STRING,
             validate: {
                 isEmail: true
@@ -131,6 +131,9 @@ module.exports = (sequelize, Datatypes) => {
             type: Datatypes.STRING
         },
         state: {
+            type: Datatypes.STRING,
+        },
+        application_type: {
             type: Datatypes.STRING,
         }
     })
